@@ -1,0 +1,183 @@
+{%  extends 'base.html' %}
+{% load static %}
+{% block title %}Posts{% endblock title %}
+{%  block content %}
+<body>
+
+  <!--/ Intro Skew Star /-->
+  <div class="intro intro-single route bg-image" style="background-image: url(https://i.imgur.com/OmQE0P9.jpg)">
+    <div class="overlay-mf"></div>
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">
+          <h2 class="intro-title mb-4">Blog</h2>
+          <ol class="breadcrumb d-flex justify-content-center">
+            <li class="breadcrumb-item">
+              <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'all_posts' %}">Blog</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Intro Skew End /-->
+
+  <!--/ Section Blog-Single Star /-->
+  <section class="blog-wrapper sect-pt4" id="blog">
+    <div class="container">
+      <div class="row">
+         <div class="col-md-8">
+         <div class="row">
+         {% if posts.count > 0 %}
+         {% for post in posts %}
+             <div class="col-md-6" style="padding-bottom: 15px;">
+          <div class="card card-blog" style="height: 480px">
+            <div class="card-img">
+              <a href="{% url 'post_detail' slug=post.slug %}"><img src="{{ post.title_img.url }}" alt="" class="img-fluid"></a>
+            </div>
+            <div class="card-body">
+              <div class="card-category-box">
+                <div class="card-category">
+                  <h6 class="category">{{ post.category.title }}</h6>
+                </div>
+              </div>
+              <h3 class="card-title"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h3>
+              <p class="card-description">
+                {{ post.body | truncatewords:15 | safe}}
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="post-author">
+                <a href="#">
+                  <img src="https://i.imgur.com/91J3eX9.png" alt="" class="avatar rounded-circle">
+                  <span class="author">{{ post.author.last_name }} {{ post.author.first_name }}</span>
+                </a>
+              </div>
+              <div class="post-date">
+                <span class="ion-ios-clock-outline"></span> {{ post.posted |date:"d/m/Y" }}
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+         {% else %}
+              <div class="col-md-6" style="padding-bottom: 15px;">
+              <h2>Chưa có bài viết nào cả</h2>
+              </div>
+         {% endif %}
+         </div>
+      <!-- Page pagination -->
+          <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+        {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% if posts.number > 5 %}
+            <li class="page-item"><a class="page-link" href="?page=1"><i>1</i></a></li>
+        {% endif %}
+
+        {% for i in posts.paginator.page_range %}
+        {% if i > posts.number|add:"-5" %}
+            {% if i < posts.number|add:"5" %}
+                {% if posts.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        {% if posts.number < posts.paginator.num_pages|add:"-5" %}
+        <li class="page-item"><a class="page-link" href="?page={{ posts.paginator.num_pages }}"><i>{{ posts.paginator.num_pages }}</i></a></li>
+        {% endif %}
+
+        {% if posts.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
+         </div>
+        <div class="col-md-4">
+          <div class="widget-sidebar sidebar-search">
+            <h5 class="sidebar-title">Search</h5>
+            <div class="sidebar-content">
+              <form action="{% url 'search_post' %}" method="post" role="form">
+                  {% csrf_token %}
+                <div class="input-group">
+                  <input name="keyword" type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary btn-search" type="submit">
+                      <span class="ion-android-search"></span>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+            <div class="widget-sidebar">
+            <h5 class="sidebar-title">Recent Post</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                  {% for post in recent_posts %}
+                  <li>
+                    <a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar widget-tags">
+            <h5 class="sidebar-title">Categories</h5>
+            <div class="sidebar-content">
+              <ul>
+                  {% for category in categories %}
+                                      <li>
+                  <a href="{% url 'get_post_by_category' category_slug=category.slug %}">{{ category.title }} ({{ category.blog_set.count }})</a>
+                </li>
+                  {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Section Blog-Single End /-->
+
+  <!--/ Section Contact-Footer Star /-->
+  <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(https://i.imgur.com/OmQE0P9.jpg)">
+    <div class="overlay-mf"></div>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="copyright-box">
+              <p class="copyright">&copy; Copyright <strong>Banh Quoc Thang</strong>. All Rights Reserved</p>
+              <div class="credits">
+                <!--
+                  All the links in the footer should remain intact.
+                  You can delete the links only if you purchased the pro version.
+                  Licensing information: https://bootstrapmade.com/license/
+                  Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=DevFolio
+                -->
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </section>
+  <!--/ Section Contact-footer End /-->
+
+{% endblock content %}

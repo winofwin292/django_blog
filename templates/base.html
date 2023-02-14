@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock title %}</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="https://i.imgur.com/91J3eX9.png" rel="icon">
+  <link href="https://i.imgur.com/4yvPCda.png" rel="apple-touch-icon">
+
+  <!-- Bootstrap CSS File -->
+  <link type="text/css" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link type="text/css" href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link type="text/css" href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+  <link type="text/css" href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+  <link type="text/css" href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link type="text/css" href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    {% block custom_css %}
+    {% endblock custom_css %}
+
+  <!-- =======================================================
+    Theme Name: DevFolio
+    Theme URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+{%  block content %}
+{% endblock content %}
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+  <!-- JavaScript Libraries -->
+  <script type="text/javascript" src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/jquery/jquery-migrate.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/popper/popper.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/easing/easing.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/counterup/jquery.waypoints.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/counterup/jquery.counterup.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'lib/typed/typed.min.js' %}"></script>
+
+  <!-- Template Main Javascript File -->
+  <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+  {% block custom_js %}
+  {% endblock custom_js %}
+
+</body>
+</html>
